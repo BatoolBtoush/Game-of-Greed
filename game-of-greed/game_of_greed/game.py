@@ -3,11 +3,18 @@ from game_of_greed.game_logic import GameLogic
 
 
 class Game:
+
+
     def __init__(self, roller=None):
         self.roller = roller
         self.banker = Banker()
+        self.logic = GameLogic()
         self.banker.bank
 
+
+
+
+ rolling-dice
     def play(self):
         print("Welcome to Game of Greed")
         wanna_play = input("Wanna play? ")
@@ -16,6 +23,9 @@ class Game:
         else:
             banked = self.banker
             round = 1
+ rolling-dice
+            result = 0
+
 
             while round:
                 score = 0
@@ -31,10 +41,18 @@ class Game:
                 print(",".join(nums))
                 count = 0
                 decision = input("Enter dice to keep (no spaces), or (q)uit: ")
-                result = banked.bank()[1]
-                if decision == "q":
+rolling-dice
 
-                    break
+                result += banked.balance
+
+                if banked.balance == 0 and decision == 'q':
+                    print(f"Thanks for playing. You earned 0 points")
+                    break     
+                if banked.balance != 0 and decision == 'q':
+                        print(f'Total score is {result} points')
+                        print(f'Thanks for playing. You earned {result} points') 
+                        break   
+
                 else:
                     count = 1
                     new_list = []
@@ -55,17 +73,27 @@ class Game:
 
                     choice = input("(r)oll again, (b)ank your points or (q)uit ")
                     # choice = input("(r)oll again, (b)ank your points or (q)uit: ")
-                    if choice == "q" and count == 1:
-                        print("hi")
-                        print(f"Total score is {result} points")
-                        print(f"Thanks for playing. You earned {result} points")
-                        break
-                    round += 1
 
-                    print(f"You banked {shelved} points in round {(round-1)}")
-                    print(f"Total score is {shelved} points")
 
-            print(f"Thanks for playing. You earned {result} points")
+                    if choice == "b":
+                        if round == 1:
+                            print(f"You banked {shelved} points in round {round}")
+                            print(f"Total score is {banked.bank()[1]} points")
+                            round += 1
+                        else:
+                            print(f"You banked {shelved} points in round {round}")
+                            print(f"Total score is {banked.bank()[1]} points")
+                            # banked calculate the total score 
+                            
+                            round += 1
+                
+            # print(f"Total score is {result} points")
+
+            # print(f"Thanks for playing. You earned {result} points")
+                
+                # print(f"Thanks for playing. You earned {result} points")
+                
+
 
 
 if __name__ == "__main__":
